@@ -1,0 +1,71 @@
+version: '3'
+
+services:
+  app:
+    build: .
+    container_name: commerce-admin-app
+    entrypoint: ./.docker/app-entrypoint.sh
+    volumes:
+      - .:/home/django/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    networks:
+      - default
+      - rabbitmq_code-commerce
+      - redis_code-commerce
+
+  worker:
+    build: .
+    container_name: commerce-admin-worker
+    restart: on-failure
+    entrypoint: ./.docker/worker-entrypoint.sh
+    volumes:
+      - .:/home/django/app
+    depends_on:
+      - app
+      - db
+    networks:
+      - default
+      - rabbitmq_code-commerce
+      - redis_code-commerce
+
+  db:
+    image: postgres
+    container_name: commerce-admin-db
+    tty: true
+    environment:
+      - POSTGRES_DB=commerce_admin
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=root
+    volumes:
+      - commerce-admin-pgdata:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"
+    networks:
+      - default
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: commerce-admin-pgadmin
+    tty: true
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@fullcycle.com.br
+      - PGADMIN_DEFAULT_PASSWORD=123456
+    ports:
+      - "9000:80"
+    networks:
+      - default
+
+volumes:
+  commerce-admin-pgdata:
+     external: true
+
+networks:
+  default:
+    driver: bridge
+  rabbitmq_code-commerce:
+    external: true
+  redis_code-commerce:
+    external: true

@@ -1,0 +1,35 @@
+[
+  {
+    "model": "my_admin.PaymentMethod",
+    "pk": "2046b39c-e05a-4412-8264-73dd80217a11",
+    "fields": {
+      "name": "credit_card",
+      "allow_installments": true,
+      "created_at": "2020-01-01T00:00:00.000Z",
+      "updated_at": "2020-01-01T00:00:00.000Z"
+    }
+  },
+  {
+    "model": "my_admin.PaymentMethod",
+    "pk": "22f7ee75-9586-418b-b989-174740a9831b",
+    "fields": {
+      "name": "bank_slip",
+      "allow_installments": false,
+      "created_at": "2020-01-01T00:01:00.000Z",
+      "updated_at": "2020-01-01T00:01:00.000Z"
+    }
+  },
+  {
+    "model": "my_admin.plan",
+    "pk": "6ac00aa0-a9be-4b64-8bbd-f5bb094bc081",
+    "fields": {
+      "created_at": "2020-06-28T20:04:54.512Z",
+      "updated_at": "2020-06-28T20:04:54.512Z",
+      "name": "Semestral",
+      "billing_cycle": "6",
+      "price": "120.00",
+      "remote_plan_id": "teste"
+    }
+  }
+]
+

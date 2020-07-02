@@ -1,0 +1,86 @@
+[
+  {
+    "model": "auth_app.user",
+    "pk": "e5182812-d1b0-4585-99bf-6510497601ab",
+    "fields": {
+      "password": "pbkdf2_sha256$180000$YDGrT1pcKb4Y$ZXgiacltNEw55sWrPRlyQ5INNQx4zCzo3xiUw3qZ6Hs=",
+      "last_login": null,
+      "is_superuser": true,
+      "username": "admin@user.com",
+      "first_name": "",
+      "last_name": "",
+      "email": "admin@user.com",
+      "is_staff": true,
+      "is_active": true,
+      "date_joined": "2020-01-01T00:00:00.000Z",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "auth_app.user",
+    "pk": "df8d851d-12e4-4020-a955-46294b8b4906",
+    "fields": {
+      "password": "pbkdf2_sha256$180000$YDGrT1pcKb4Y$ZXgiacltNEw55sWrPRlyQ5INNQx4zCzo3xiUw3qZ6Hs=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "admin@code-commerce1.test",
+      "first_name": "",
+      "last_name": "",
+      "email": "admin@code-commerce1.test",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2020-01-01T00:00:01.000Z",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "auth_app.user",
+    "pk": "62be0292-9c83-4a37-a753-1cf7b46156a1",
+    "fields": {
+      "password": "pbkdf2_sha256$180000$YDGrT1pcKb4Y$ZXgiacltNEw55sWrPRlyQ5INNQx4zCzo3xiUw3qZ6Hs=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "admin@code-commerce2.test",
+      "first_name": "",
+      "last_name": "",
+      "email": "admin@code-commerce2.test",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2020-01-01T00:00:02.000Z",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "auth_app.member",
+    "pk": "822014dc-5040-4871-9675-1e1ac9253b04",
+    "fields": {
+      "user_id": "df8d851d-12e4-4020-a955-46294b8b4906",
+      "tenant_id": "1cc0182d-bdf9-435b-86c3-2a201100a134",
+      "groups": [
+        1
+      ],
+      "group_tenants": [],
+      "permissions": [],
+      "created_at": "2020-01-01T00:00:00.000Z",
+      "updated_at": "2020-01-01T00:00:00.000Z"
+    }
+  },
+  {
+    "model": "auth_app.member",
+    "pk": "9074d349-ef17-45b2-93c7-9e97ecf6d529",
+    "fields": {
+      "user_id": "62be0292-9c83-4a37-a753-1cf7b46156a1",
+      "tenant_id": "5404ef25-b6a1-43ec-977b-cce1509f2c8b",
+      "groups": [
+        1
+      ],
+      "group_tenants": [],
+      "permissions": [],
+      "created_at": "2020-01-01T00:00:01.000Z",
+      "updated_at": "2020-01-01T00:00:01.000Z"
+    }
+  }
+]

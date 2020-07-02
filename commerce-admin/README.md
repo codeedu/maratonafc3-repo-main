@@ -36,6 +36,8 @@ docker volume create commerce-admin-pgdata
 #### Crie os containers com Docker
 
 ```bash
+cd .. && cd redis && docker-compose up -d
+cd .. && cd rabbitmq && docker-compose up -d
 $ docker-compose up
 ```
 

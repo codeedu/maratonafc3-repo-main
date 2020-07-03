@@ -13,7 +13,7 @@ class TenantManager(models.Manager):
 
 class TenantPolymorphicManager(PolymorphicManager):
     def get_queryset(self):
-        queryset = self._queryset_class(self.model)
+        queryset = super().get_queryset()
         current_tenant = get_tenant()
         if current_tenant:
             kwargs = get_tenant_filters()

@@ -12,6 +12,7 @@ class TenantBackend(ModelBackend):
         can_authenticate = super().user_can_authenticate(user)
         member = getattr(user, 'user_member', None)
         tenant = get_tenant()
+
         tenant_has_member = member.tenant.id == tenant.id if member and tenant else False
         return True if can_authenticate and member and tenant_has_member else False
 

@@ -44,8 +44,8 @@ def rabbitmq_producer():
 with rabbitmq_conn() as conn:
     queue = kombu.Queue(
         name='commerce-admin/new-subscription',
-        exchange='amq.direct',
-        routing_key='',
+        exchange='amq.fanout',
+        routing_key='new-subscription',
         channel=conn,
         durable=True
     )
@@ -64,8 +64,7 @@ class NewSubscriptionConsumerStep(bootsteps.ConsumerStep):
             )
         ]
 
-    def handle_message(self, body, message):
-        data = json.loads(body)
+    def handle_message(self, data, message):
 
         from my_admin.models import Customer, CustomerAddress, Checkout, Plan, Subscription
         from tenant.models import Tenant
@@ -76,8 +75,9 @@ class NewSubscriptionConsumerStep(bootsteps.ConsumerStep):
                 tenant = Tenant.objects.create(
                     company=data['name'],
                     is_admin=False,
-                    site=data['site'],
-                    fallback_subdomain=get_random_string(length=6)
+                    #site=data['site'],
+                    site='meusite.test',
+                    fallback_subdomain=get_random_string(length=6).lower()
                 )
                 set_tenant(tenant)
                 UserTenant.objects.create_tenant_admin(
@@ -113,9 +113,10 @@ class NewSubscriptionConsumerStep(bootsteps.ConsumerStep):
                 Subscription.objects.create(
                     checkout=checkout,
                     start_date=remote_subscription['StartDate'][0:10],
-                    expires_date=remote_subscription['ExpiresAtDate'][0:10],
+                    expires_date=remote_subscription['ExpiresAt'][0:10],
                     remote_subscription_id=remote_subscription['RemoteSubscriptionID'],
                 )
+
                 from django.conf import settings
                 settings.ALLOWED_HOSTS.clear()
         except Exception as e:

@@ -31,6 +31,6 @@ class TenantMiddleware(MiddlewareMixin):
     def _load_tenant(self, domain):
         tenant = Tenant.objects.get(
             Q(site=domain) |
-            Q(fallback_subdomain=domain)
+            Q(fallback_subdomain__iexact=domain)
         )
         set_tenant(tenant)

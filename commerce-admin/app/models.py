@@ -84,7 +84,7 @@ class ProductPaymentMethod(AutoCreatedUpdatedMixin):
         unique_together = ('product_id', 'payment_method_id',)
 
 
-class PaymentGateway(AutoCreatedUpdatedMixin, PolymorphicModel, TenantPolymorphicModel):
+class PaymentGateway(AutoCreatedUpdatedMixin, TenantPolymorphicModel, PolymorphicModel):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=255, verbose_name='nome')
     default = models.BooleanField(default=False, verbose_name='principal')
@@ -138,8 +138,10 @@ class Customer(BaseCustomer, TenantModel):
     class Meta:
         verbose_name = 'cliente'
 
+
 class CustomerAddress(BaseAddress, TenantModel):
-    customer=models.ForeignKey(Customer, on_delete=models.PROTECT)
+    customer = models.ForeignKey(Customer, on_delete=models.PROTECT)
+
     class Meta:
         verbose_name = 'endereço'
 
@@ -159,6 +161,13 @@ class Checkout(AutoCreatedUpdatedMixin, TenantModel):
     )
     bank_slip_url = models.URLField(null=True, verbose_name='url do boleto')
     status = models.PositiveSmallIntegerField(default=1)
+    remote_id = models.CharField(
+        max_length=255,
+        null=True,
+        default=None,
+        verbose_name='id remoto da fatura',
+        help_text='id remoto da fatura no gateway de pagamento'
+    )
 
     @property
     def total(self):
@@ -176,7 +185,7 @@ class CheckoutItem(AutoCreatedUpdatedMixin):
     checkout = models.ForeignKey(Checkout, on_delete=models.PROTECT, related_name='checkout_items')
     product = models.ForeignKey(Product, on_delete=models.PROTECT, verbose_name='produto')
     quantity = models.PositiveSmallIntegerField(verbose_name='quantidade')
-    price = models.DecimalField(max_digits=8, decimal_places=2,verbose_name='preço')
+    price = models.DecimalField(max_digits=8, decimal_places=2, verbose_name='preço')
 
     class Meta:
         verbose_name = 'item'

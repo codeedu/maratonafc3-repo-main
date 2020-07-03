@@ -1,13 +1,14 @@
 from datetime import datetime, timedelta
 import requests
 import logging
+
+from django.conf import settings
 from rest_framework import viewsets, mixins, exceptions, status
 from rest_framework.response import Response
 from rest_framework.exceptions import NotFound
 
 from app.models import Customer, PaymentGateway, Checkout, PagarmeGateway
 from app.serializers import CustomerSerializer, PaymentGatewaySerializer, CheckoutSerializer
-from commerce_admin import settings
 from tenant.utils import get_tenant
 
 logger = logging.getLogger(__name__)
@@ -21,12 +22,12 @@ class TenantViewSet(viewsets.GenericViewSet):
 
 
 class CustomerViewSet(TenantViewSet, mixins.CreateModelMixin):
-    queryset = Customer.objects.all()
     serializer_class = CustomerSerializer
 
+    def get_queryset(self):
+        return Customer.objects.all()
 
 class PaymentGatewayViewSet(TenantViewSet, mixins.ListModelMixin):
-    queryset = PaymentGateway.objects.all()
     serializer_class = PaymentGatewaySerializer
 
     def list(self, request, *args, **kwargs):
@@ -36,9 +37,11 @@ class PaymentGatewayViewSet(TenantViewSet, mixins.ListModelMixin):
         serializer = self.get_serializer(instance)
         return Response(serializer.data)
 
+    def get_queryset(self):
+        return PaymentGateway.objects.all()
+
 
 class CheckoutViewSet(TenantViewSet, mixins.CreateModelMixin):
-    queryset = Checkout.objects.all()
     serializer_class = CheckoutSerializer
 
     def create(self, request, *args, **kwargs):
@@ -47,19 +50,48 @@ class CheckoutViewSet(TenantViewSet, mixins.CreateModelMixin):
         self.perform_create(serializer)
         payment_method = serializer.instance.payment_method
         customer_address = serializer.instance.customer_address
+        print({
+                    "secret_key": settings.MICRO_SERVICE_PAYMENT_API_KEY,
+                    "api_key": PagarmeGateway.objects.get(default=True).api_key,
+                    "gateway": {
+                        "name": "pagar.me",
+                    },
+                    "transaction_client_id": str(customer_address.id),
+                    "payment_method": payment_method.name,
+                    "amount": int(serializer.instance.total * 100),
+                    "card_hash": request.data["card_hash"],
+                    #"postback_url": ""
+                    "installments": request.data["installments"],
+                    "boleto_expiration_date": (datetime.now()+timedelta(days=2)).strftime('%Y-%m-%d'),
+                    "soft_descriptor": get_tenant().company,
+                    "capture": "true",
+                    "boleto_instructions": "Não aceitar depois do vencimento",
 
+                    "customer": {
+                        "external_id": str(customer_address.id),
+                        "name": customer_address.customer.name,
+                        "email": customer_address.customer.email,
+                        "country": "br",
+                        "type": "individual",
+                        "document_number": customer_address.customer.personal_document,
+                        "phone_numbers": [
+                            "%s %s" % (customer_address.ddd1, customer_address.phone1)
+                        ]
+                    }
+                })
         try:
             r = requests.post(
                 settings.MICRO_SERVICE_PAYMENT_URL,
                 json={
                     "secret_key": settings.MICRO_SERVICE_PAYMENT_API_KEY,
+                    "api_key": PagarmeGateway.objects.get(default=True).api_key,
+
                     "gateway": {
                         "name": "pagar.me",
-                        'key': PagarmeGateway.objects.get(default=True).api_key,
                     },
-                    "transaction_client_id": "123",
+                    "transaction_client_id": str(customer_address.id),
                     "payment_method": payment_method.name,
-                    "amount": serializer.instance.total * 100,
+                    "amount": int(serializer.instance.total * 100),
                     "card_hash": request.data["card_hash"],
                     #"postback_url": ""
                     "installments": request.data["installments"],
@@ -68,27 +100,28 @@ class CheckoutViewSet(TenantViewSet, mixins.CreateModelMixin):
                     "capture": "true",
                     "boleto_instructions": "Não aceitar depois do vencimento",
                     "customer": {
-                        "external_id": customer_address.id,
+                        "external_id": str(customer_address.id),
                         "name": customer_address.customer.name,
                         "email": customer_address.customer.email,
                         "country": "br",
                         "type": "individual",
-                        "documents": {
-                            "type": "cpf",
-                            "number": customer_address.customer.personal_document
-                        },
+                        "document_number": customer_address.customer.personal_document,
                         "phone_numbers": [
                             "%s %s" % (customer_address.ddd1, customer_address.phone1)
                         ]
                     },
                 }
             )
-            # if r.status_code == 200 or r.status_code == 201:
-            #     serializer.instance.status = 2
-            #     data = r.json()
-            #     serializer.instance.bank_slip_url = data['boleto_url']
-            #     # pegar a url do boleto
-            #     serializer.instance.save()
+
+            data = r.json()
+            print(data)
+            if 'errors' not in data and (r.status_code == 200 or r.status_code == 201):
+                serializer.instance.status = 2
+                serializer.instance.remote_id = data['transaction_id']
+                data = r.json()
+                serializer.instance.bank_slip_url = data['boleto_url']
+                # pegar a url do boleto
+                serializer.instance.save()
             #else:
             # return Response(
             #     {
@@ -106,3 +139,6 @@ class CheckoutViewSet(TenantViewSet, mixins.CreateModelMixin):
             )
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
+    def get_queryset(self):
+        return Checkout.objects.all()

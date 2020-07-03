@@ -1,0 +1,129 @@
+.content-product {
+  background-color: #fafafa;
+  min-height: calc(100% - 240px);
+  height: auto;
+
+  .product {
+    margin-top: 30px;
+    padding-bottom: 30px;
+  }
+
+  .item {
+    background-color: #ffffff;
+    padding: 15px;
+
+    .product-img {
+      height: 380px;
+      border: 1px solid #ddd;
+
+      @extend %flex-default;
+      justify-content: center;
+
+      .img-fluid {
+        max-height: 350px;
+        height: auto;
+        max-width: 525px;
+        width: auto;
+      }
+    }
+
+    .product-info {
+      @extend %flex-default;
+      flex-direction: column;
+      align-items: flex-start;
+
+      @include respond-to($_992) {
+        margin-left: 50px;
+        height: 380px;
+      }
+
+      .title {
+        padding-top: 30px;
+
+        @include respond-to($_992) {
+          padding-top: 15px;
+        }
+
+        h2 {
+          font-size: 1.6em;
+          font-weight: 700;
+          color: #909090;
+        }
+
+        span {
+          font-size: 0.9em;
+          font-weight: 400;
+          color: #909090;
+        }
+      }
+
+      .info {
+        border-top: 1px solid #ededed;
+        @extend %flex-default;
+        flex-direction: column;
+        flex-wrap: wrap;
+        width: 100%;
+
+        @include respond-to($_1200) {
+          padding-bottom: 15px;
+        }
+
+        .info-price {
+          text-align: center;
+          p {
+            font-size: 1em;
+            font-weight: 400;
+            color: #303030;
+            margin: 0;
+
+            &.price {
+              font-size: 2em;
+              font-weight: 700;
+
+              @include respond-to($_1200) {
+                font-size: 2.7em;
+              }
+            }
+
+            &.price-div {
+              margin-top: -15px;
+            }
+          }
+        }
+
+        .btn-info {
+          @extend %btn-default;
+
+          @include respond-to($_992) {
+            font-size: 1.3em;
+          }
+        }
+      }
+    }
+  }
+
+  .item-details {
+    flex-direction: column;
+    h2 {
+      font-size: 2.4em;
+      font-weight: 400;
+      color: #909090;
+      margin: 30px 0;
+    }
+
+    .item-details-info {
+      background-color: #ffffff;
+      padding: 15px;
+
+      p {
+        font-size: 1.18em;
+        font-weight: 300;
+        color: #909090;
+      }
+    }
+  }
+
+  .section-default {
+    background-color: #ffffff;
+  }
+}

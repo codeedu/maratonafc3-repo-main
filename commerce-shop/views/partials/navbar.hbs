@@ -1,0 +1,80 @@
+<nav class="navbar navbar-expand-lg navbar-main">
+    <div class="container">
+
+        <a class="navbar-brand" href="/">
+            <img src="/img/logo-nav.png" alt="">
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCodeShopMainContent"
+                aria-controls="navbarCodeShopMainContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarCodeShopMainContent">
+
+            <form class="form-inline" action="/search" method="get">
+                <div class="input-group col-11">
+                    <div class="input-group col-12">
+                        <input type="search"
+                               name="search"
+                               class="form-control"
+                               placeholder="Busca"
+                               aria-label="Busca"
+                               aria-describedby="button-search"
+                               value="{{search}}"
+                        >
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary" type="submit" id="button-search">
+                                <img src="/img/search.png" alt="Busca">
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+
+            <a class="cart" href="/cart">
+                <img src="/img/shopping-cart.png" alt="Carrinho" class="cart-img">
+                <span class="badge badge-pill badge-dark">{{get "countItems" cart}}</span>
+                <div class="info">
+                    <h3>Carinho</h3>
+                    <p>R$ {{toFixed (get "total" cart) 2}}</p>
+                </div>
+            </a>
+
+        </div>
+    </div>
+</nav>
+
+
+<nav class="navbar navbar-expand navbar-secondary">
+    <div class="container">
+        <ul class="navbar-nav">
+
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                   aria-haspopup="true" aria-expanded="false">
+                    <img src="/img/menu.png" alt="Menu Categorias">
+                    Todas as Categorias
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    {{#forEach categories}}
+                        <a class="dropdown-item" href="/category/{{slug}}">{{name}}</a>
+                        {{#unless isLast}}
+                            <div class="dropdown-divider"></div>
+                        {{/unless}}
+                    {{/forEach}}
+                </div>
+            </li>
+
+        </ul>
+
+        <ul class="nav list-category">
+             {{#each (first categories 6)}}
+                 <li class="nav-item">
+                     <a class="nav-link" href="/category/{{slug}}">{{name}}</a>
+                 </li>
+             {{/each}}
+        </ul>
+    </div>
+
+</nav>

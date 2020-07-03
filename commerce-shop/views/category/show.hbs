@@ -1,0 +1,130 @@
+<div class="content-category">
+
+
+    <div class="container">
+
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">{{get "name" category}}</li>
+            </ol>
+        </nav>
+    </div>
+
+    <section class="section-default">
+
+        <div class="container">
+            {{#isnt search undefined}}
+                <h2>Pesquisa por: {{search}}</h2>
+            {{else}}
+                <h2>{{get "name" category}}</h2>
+            {{/isnt}}
+
+
+            <div class="info-filter">
+                <div class="info">
+                    <img src="/img/symbol_total.png" alt="quantidade de produtos">
+                    <p>{{totalProducts}} produtos</p>
+                </div>
+
+                <span class="line"></span>
+
+                <div class="filter">
+                    <form action="">
+                        <select class="form-control" name="order" value="{{order}}"
+                                onchange="this.form.submit()">
+                            <option value="todos" {{#is order 'todos'}} selected="selected" {{/is}}>
+                                Todos
+                            </option>
+                            <option value="mais_vendidos" {{#is order 'mais_vendidos'}}
+                                    selected="selected" {{/is}}>
+                                Mais vendidos
+                            </option>
+                            <option value="menor_preco" {{#is order 'menor_preco'}} selected="selected" {{/is}}>
+                                Menor Preço
+                            </option>
+                            <option value="maior_preco" {{#is order 'maior_preco'}} selected="selected" {{/is}}>
+                                Maior Preço
+                            </option>
+                        </select>
+                    </form>
+                </div>
+            </div>
+
+            <div class="container-default row">
+
+                {{#forEach products}}
+                    <a href="/product/{{slug}}" title="Produto" class="col-sm-6 col-md-4 col-lg-3">
+                        <article class="item">
+                            <div class="item-img">
+                                <img src="{{ASSETS_URL}}{{image_url}}" alt="{{name}}" class="img-fluid">
+                            </div>
+                            <div class="title">
+                                <h2>{{name}}</h2>
+                            </div>
+                            <p class="price">R${{price}}</p>
+                            {{#with ../payMethodConfig}}
+                                {{#is max_installments 0}}
+                                    <p>À vista no boleto</p>
+                                {{else}}
+                                    <p>
+                                        {{max_installments}}x de R$ {{toFixed (divide ../this.price max_installments)
+                                                                              2}} sem juros
+                                    </p>
+                                {{/is}}
+                            {{/with}}
+                        </article>
+                    </a>
+                {{/forEach}}
+
+                {{#is (length products) 0}}
+                    <h3 style="width: 100%; text-align: center">Sem resultados</h3>
+                {{/is}}
+
+
+
+                <nav class="container-pagination">
+                    <ul class="pagination">
+                        {{#gt (get "page" pagination) 1}}
+                            <li class="page-item">
+                                <a class="page-link" href="?{{#isnt search undefined}}search={{search}}&&{{/isnt}}order={{filterParam}}&page={{minus (get "page" pagination) 1}}"
+                                aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
+                        {{/gt}}
+                        {{#gt (get "page" pagination) 1}}
+                            <li class="page-item">
+                                <a class="page-link" href="?{{#isnt search undefined}}search={{search}}&&{{/isnt}}order={{filterParam}}&page={{minus (get "page" pagination) 1}}">
+                                {{minus (get "page" pagination) 1}}
+                                </a>
+                            </li>
+                        {{/gt}}
+                        <li class="page-item active">
+                            <a class="page-link" href="?{{#isnt search undefined}}search={{search}}&&{{/isnt}}order={{filterParam}}&page={{get "page" pagination}}">
+                            {{get "page" pagination}}
+                            </a>
+                        </li>
+                        {{#lt (get "page" pagination) (get "countPages" pagination)}}
+                            <li class="page-item">
+                                <a class="page-link" href="?{{#isnt search undefined}}search={{search}}&&{{/isnt}}order={{filterParam}}&page={{sum (get "page" pagination) 1}}">
+                                    {{sum (get "page" pagination) 1}}
+                                </a>
+                            </li>
+                        {{/lt}}
+                        {{#lt (get "page" pagination) (get "countPages" pagination)}}
+                            <li class="page-item">
+                                <a class="page-link" href="?{{#isnt search undefined}}search={{search}}&&{{/isnt}}order={{filterParam}}&page={{sum (get "page" pagination) 1}}"
+                                aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                        {{/lt}}
+                    </ul>
+                </nav>
+
+            </div>
+        </div>
+    </section>
+
+</div>

@@ -1,0 +1,78 @@
+.content-login {
+  min-height: calc(100% - 170px);
+  height: auto;
+  background-color: #fafafa;
+
+  .section-login {
+    @extend %flex-default;
+    justify-content: center;
+    padding: 0 15px;
+
+    .container-login {
+      max-width: 350px;
+      width: auto;
+      padding-top: 30px;
+
+      @include respond-to($_768) {
+        padding-top: 60px;
+      }
+
+      h2 {
+        font-size: 1.8em;
+        font-weight: 400;
+        color: #909090;
+        margin: 0 0 30px 0;
+
+        @include respond-to($_768) {
+          font-size: 2.4em;
+        }
+      }
+
+      .form-login {
+        width: 100%;
+
+        @include respond-to($_768) {
+          width: 350px;
+        }
+
+        .form-group {
+          margin-bottom: 30px;
+
+          .form-control {
+            height: 46px;
+            border-color: #ededed;
+          }
+
+          .text-muted {
+            text-align: right;
+
+            a {
+              color: #909090;
+
+              &:hover {
+                text-decoration: underline;
+              }
+            }
+          }
+        }
+
+        .btn-info {
+          @extend %btn-default;
+          height: 46px;
+          width: 100%;
+        }
+      }
+
+      .btn-link {
+        font-weight: 400;
+        color: #303030;
+        width: 100%;
+        margin-top: 15px;
+
+        @include respond-to($_992) {
+          font-size: 1.4em;
+        }
+      }
+    }
+  }
+}

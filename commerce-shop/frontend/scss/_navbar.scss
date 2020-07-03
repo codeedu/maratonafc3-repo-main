@@ -1,0 +1,311 @@
+.navbar {
+  &.navbar-main {
+    background-color: #ffffff;
+    padding: 0;
+
+    .container {
+      border-bottom: 1px solid #ededed;
+      padding: 15px;
+
+      @include respond-to($_1200) {
+        padding-left: 0;
+        padding-right: 0;
+      }
+
+      .navbar-toggler {
+        border-color: #d44d26;
+
+        .navbar-toggler-icon {
+          background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(253, 202, 80, 1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E");
+        }
+
+      }
+
+      .navbar-collapse {
+        flex-grow: initial;
+
+        @include respond-to($_1200) {
+          flex-grow: 1;
+        }
+
+        .form-inline {
+          margin: 15px 0;
+
+          @include respond-to($_1200) {
+            flex-grow: 1;
+            justify-content: flex-end;
+            margin: 0;
+          }
+
+          .col-11, .col-12 {
+            padding-right: 0;
+            padding-left: 0;
+
+            @include respond-to($_1200) {
+              padding-right: 15px;
+              padding-left: 15px;
+            }
+          }
+
+          .form-control {
+            border-color: #ededed;
+          }
+
+          .btn-outline-secondary {
+            background-color: #d44d26;
+            border-color: #d44d26;
+
+            &:hover {
+              background-color: #d44d26;
+              border-color: #d44d26;
+              color: #d44d26;
+            }
+          }
+        }
+
+        .cart {
+          @extend %flex-default;
+          justify-content: flex-start;
+          position: relative;
+          margin: 15px 0;
+
+          @include respond-to($_1200) {
+            padding: 0 40px;
+            margin: 0;
+          }
+
+          .cart-img {
+            margin-right: 20px;
+          }
+
+          .badge {
+            position: absolute;
+            left: 20px;
+            top: 4px;
+
+            @include respond-to($_1200) {
+              left: 60px;
+              margin: 0;
+            }
+          }
+
+          h3 {
+            font-size: 1.1em;
+            font-weight: 600;
+            color: #000000;
+            margin: 0;
+          }
+
+          p {
+            font-size: 0.7em;
+            font-weight: 300;
+            color: #000000;
+            margin: 0;
+          }
+
+          .info {
+            @extend %flex-default;
+            flex-direction: column;
+          }
+        }
+
+        .access {
+          @extend %flex-default;
+          justify-content: flex-start;
+
+          @include respond-to($_1200) {
+            padding: 0 0 0 40px;
+          }
+
+          .rounded-circle {
+            width: 40px;
+          }
+
+          img {
+            margin-right: 10px;
+          }
+
+          .info {
+            @extend %flex-default;
+            flex-direction: column;
+
+            a {
+              font-size: 0.8em;
+              font-weight: 400;
+              color: #000000;
+              margin: 0;
+            }
+
+            p {
+              font-size: 0.7em;
+              font-weight: 300;
+              color: #000000;
+              margin: 0;
+            }
+          }
+
+          .dropdown-toggle {
+            @extend %flex-default;
+            justify-content: flex-start;
+
+            padding: 0;
+
+            @include respond-to($_992) {
+              padding: 0 0 0 30px;
+            }
+
+            @include respond-to($_1200) {
+              padding: 0;
+            }
+
+            &::after {
+              border-top: 0.3em solid #909090;
+            }
+          }
+
+          .dropdown-menu {
+            border: 1px solid #ededed;
+
+            @include respond-to($_1200) {
+              width: 270px !important;
+            }
+
+            &:before {
+              border: 10px solid transparent;
+              border-bottom-color: #ededed;
+              content: "";
+              left: 45%;
+              top: -19px;
+              position: absolute;
+            }
+
+            .dropdown-item {
+              font-size: 0.9em;
+              color: #666666;
+
+              &:active {
+                background-color: #fafafa;
+              }
+              &.active {
+                background-color: #fafafa;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+
+  &.navbar-secondary {
+    box-shadow: 0 7px 15px -2px #dddddd;
+    z-index: 1;
+
+    background-color: #ffffff;
+    padding: 0;
+
+    .container {
+      border-bottom: 1px solid #ededed;
+      padding: 0 10px;
+      justify-content: flex-start;
+
+      @include respond-to($_576) {
+        padding-left: 0;
+        padding-right: 0;
+      }
+
+      .navbar-nav {
+        width: 100%;
+
+        @include respond-to($_576) {
+          width: auto;
+        }
+
+        .dropdown {
+          width: 100%;
+        }
+
+        .dropdown-toggle {
+          background-color: #1c1c1c;
+          padding: 12px 50px 12px 20px;
+          color: #ffffff;
+          font-size: 1em;
+
+          &:after {
+            display: none;
+          }
+
+          img {
+            margin-right: 10px;
+          }
+        }
+
+        .dropdown-menu {
+          margin: 0;
+          border-radius: 0;
+          overflow-y: scroll;
+          height: 400px;
+          width: 100%;
+
+          @include respond-to($_576) {
+            overflow-y: initial;
+            height: auto;
+          }
+
+
+          .dropdown-item {
+            font-size: 0.9em;
+
+            &:active {
+              background-color: #fafafa;
+            }
+
+            &.active {
+              background-color: #fafafa;
+            }
+          }
+        }
+      }
+
+
+      .list-category {
+        display: none;
+
+        @include respond-to($_992) {
+          display: flex;
+        }
+
+        .nav-link {
+          font-size: 0.76em;
+          color: #505050;
+
+          @include respond-to($_1200) {
+            font-size: 1em;
+          }
+        }
+      }
+    }
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,32 @@
+<div class="content-payment-success">
+    <section class="section-default">
+        <div class="container-md">
+            <div class="row justify-content-lg-around">
+                <div class="col-lg-10">
+                    {{#gt (length oldCartItems) 0}}
+                        <h2>Compra finalizada com sucesso</h2>
+                        <p>Resumo do pedido</p>
+                        {{#forEach oldCartItems}}
+                            {{#with product}}
+                                <article class="box-item">
+                                    <div class="container-img">
+                                        <img src="{{ASSETS_URL}}{{image_url}}" alt="{{name}}" class="img-fluid">
+                                    </div>
+                                    <div class="info">
+                                        <h2>{{name}}</h2>
+                                        <span>Código do produto: {{uppercase (truncate id 7)}}</span>
+                                        <span>Quant.: {{../quantity}}</span>
+                                    </div>
+                                    <p>R${{price}}</p>
+                                </article>
+                            {{/with}}
+                        {{/forEach}}
+                    {{else}}
+                        <a href="/">Clique aqui</a> para voltar para a área principal</a>
+                    {{/gt}}
+                </div>
+            </div>
+        </div>
+    </section>
+
+</div>

@@ -1,0 +1,23 @@
+$color-son: #6ad270;
+
+$_240 : '(min-width: 240px)';
+$_576 : '(min-width: 576px)';
+$_768 : '(min-width: 768px)';
+$_992 : '(min-width: 992px)';
+$_1200: '(min-width: 1200px)';
+
+@mixin respond-to($media) {
+    @media only screen and #{$media} {
+        @content;
+    }
+}
+
+@mixin attr-text ($color: #878787) {
+    font-weight: 300;
+    color: $color;
+}
+
+@mixin attr-title ($color: #666666) {
+    font-weight: 600;
+    color: $color;
+}

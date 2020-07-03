@@ -1,0 +1,13 @@
+.ftr {
+  @extend %flex-default;
+  justify-content: center;
+
+  height: 50px;
+  background-color: #1c1c1c;
+
+  p {
+    font-size: 0.9em;
+    font-weight: 300;
+    color: #ffffff;
+  }
+}

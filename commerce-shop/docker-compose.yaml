@@ -1,0 +1,50 @@
+version: '3'
+
+services:
+
+  app:
+    build: .
+    entrypoint: ./.docker/entrypoint.sh
+    container_name: commerce-shop-app
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    ports:
+      - 3000:3000
+    volumes:
+      - .:/home/node/app
+    networks:
+      - default
+      - rabbitmq_code-commerce
+      - redis_code-commerce
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.5.1
+    container_name: commerce-shop-elasticsearch
+    environment:
+      - discovery.type=single-node
+    volumes:
+      - code-commerce-elasticsearch-data:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
+    networks:
+      - default
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.5.1
+    container_name: commerce-shop-kibana
+    ports:
+      - 5601:5601
+    networks:
+      - default
+
+volumes:
+  code-commerce-elasticsearch-data:
+    external: true
+
+networks:
+  default:
+    driver: bridge
+  rabbitmq_code-commerce:
+    external: true
+  redis_code-commerce:
+    external: true

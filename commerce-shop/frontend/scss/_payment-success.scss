@@ -1,0 +1,75 @@
+.content-payment-success {
+  min-height: calc(100% - 150px);
+  height: auto;
+  background-color: #fafafa;
+
+  h2 {
+    margin-bottom: 30px;
+  }
+
+  p {
+    font-size: 0.9em;
+    font-weight: 700;
+    color: #303030;
+    margin-bottom: 10px;
+  }
+
+    .box-item {
+      @extend %flex-default;
+      justify-content: flex-start;
+      background-color: #ffffff;
+      border: 1px solid #ededed;
+      margin-bottom: 20px;
+      padding: 20px;
+      height: 110px;
+
+
+      @include respond-to($_1200) {
+        padding: 20px 50px;
+      }
+
+      .container-img {
+        @extend %flex-default;
+        justify-content: center;
+        width: 140px;
+
+        img {
+          max-width: 140px;
+          width: auto;
+          max-height: 68px;
+          height: auto;
+          margin-right: 30px;
+        }
+      }
+
+
+      .info {
+        display: none;
+
+        @include respond-to($_992) {
+          display: inline;
+          flex-grow: 1;
+        }
+
+        h2 {
+          font-size: 1.2em;
+          font-weight: 600;
+          color: #808080;
+          margin: 0;
+        }
+
+        span {
+          font-size: 0.8em;
+          font-weight: 400;
+          color: #808080;
+        }
+      }
+
+      p {
+        font-size: 1em;
+        font-weight: 400;
+        color: #808080;
+      }
+
+    }
+}

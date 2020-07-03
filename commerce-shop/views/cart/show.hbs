@@ -1,0 +1,78 @@
+<div class="content-cart">
+    <div class="container">
+
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Carrinho</li>
+            </ol>
+        </nav>
+    </div>
+
+
+    <section class="section-default">
+        <div class="container">
+
+            <h2>Carrinho</h2>
+
+            <div class="row">
+
+                <div class="col-lg-8">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">Produto</th>
+                            <th scope="col">Preço</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {{#forEach (get "enumerateItems" cart)}}
+                            {{#with product}}
+                            <tr>
+                                <th scope="col" class="product">
+                                    <img src="{{ASSETS_URL}}{{image_url}}" alt="{{name}}" class="img-fluid">
+                                    <div class="info">
+                                        <p>{{name}}</p>
+                                        <span>Código do produto: {{uppercase (truncate id 7)}}</span>
+                                    </div>
+                                </th>
+                                <th scope="col" class="price">R${{price}}</th>
+                            </tr>
+                            {{/with}}
+                        {{/forEach}}
+                        </tbody>
+                    </table>
+                </div>
+
+
+                <div class="col-lg-4">
+
+                    <div class="details">
+
+                            <h3>Resumo do pedido</h3>
+
+                            <div class="list-info">
+                                <p>{{get "countItems" cart}} produtos</p>
+                                <p>R$ {{toFixed (get "total" cart) 2}}</p>
+                            </div>
+
+                            {{#with payMethodConfig}}
+                                <div class="list-info-total">
+                                    <p>Total</p>
+                                    <p>{{toFixed (get "total" ../cart) 2}} <span>em {{max_installments}}x sem juros</span></p>
+                                </div>
+                            {{/with}}
+
+
+                        <a href="/checkout" title="Continuar" class="btn btn-info">Continuar</a>
+
+                        <a href="/" title="Continuar comprando" class="btn btn-link">Continuar Comprando</a>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </section>
+
+</div>

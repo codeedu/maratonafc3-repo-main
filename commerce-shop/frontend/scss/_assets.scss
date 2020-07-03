@@ -1,0 +1,28 @@
+body {
+    font-family: 'Source Sans Pro', sans-serif;
+}
+
+html, body {
+    padding: 0;
+    margin: 0 !important;
+    height: 100%;
+}
+
+
+h1, h2, h3, h4, h5, h6 {
+    margin: 0;
+}
+
+p {
+    margin: 0;
+}
+
+a {
+    &:hover, &:focus, &:active {
+        text-decoration: none;
+    }
+}
+
+iframe {
+    margin: 0;
+}

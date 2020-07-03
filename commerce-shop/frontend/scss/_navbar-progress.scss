@@ -1,0 +1,111 @@
+.navbar-progress {
+  box-shadow: 0 7px 15px -2px #dddddd;
+  z-index: 2;
+
+  background-color: #ffffff;
+  height: 150px;
+  @extend %flex-default;
+  position: relative;
+
+  @include respond-to($_768) {
+    height: 105px;
+  }
+
+  .container {
+    @extend %flex-default;
+
+    flex-direction: column;
+
+    @include respond-to($_768) {
+      flex-direction: row;
+    }
+
+    .progressbar {
+      counter-reset: step;
+      width: 100%;
+      margin: 0;
+      padding: 0;
+
+      li {
+        list-style-type: none;
+        width: 25%;
+        float: left;
+        font-size: 0.6em;
+        font-weight: 400;
+        position: relative;
+        text-align: center;
+        color: #808080;
+
+        @include respond-to($_576) {
+          font-size: 0.95em;;
+        }
+
+        &:before {
+          width: 30px;
+          height: 30px;
+          //content: counter(step);
+          //counter-increment: step;
+          line-height: 30px;
+          border: 2px solid #e2e2e2;
+          display: block;
+          text-align: center;
+          margin: 0 auto 10px auto;
+          border-radius: 50%;
+          background-color: white;
+
+          content: "\f00c";
+          font-family: FontAwesome;
+          font-style: normal;
+          font-weight: normal;
+          text-decoration: inherit;
+          font-size: 1em;
+          color: #e2e2e2;
+
+          @include respond-to($_576) {
+            width: 35px;
+            height: 35px;
+            font-size: 1.4em;
+          }
+        }
+
+        &:after {
+          width: 100%;
+          height: 2px;
+          content: '';
+          position: absolute;
+          background-color: #e2e2e2;
+          top: 15px;
+          left: -50%;
+          z-index: -1;
+        }
+
+        &:first-child {
+          &:after {
+            content: none;
+          }
+        }
+
+        &.active {
+          color: #808080;
+          font-weight: 700;
+
+          a {
+            color: #808080;
+          }
+
+          &:before {
+            background-color: #d44d26;
+            border-color:  #e2e2e2;
+            color: #ffffff;
+          }
+
+          + li {
+            &:after {
+              background-color:  #d44d26;
+            }
+          }
+        }
+      }
+    }
+  }
+}

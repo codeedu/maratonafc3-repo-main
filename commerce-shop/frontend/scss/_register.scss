@@ -1,0 +1,49 @@
+.content-register {
+  min-height: calc(100% - 170px);
+  height: auto;
+  background-color: #fafafa;
+
+
+    .form-register {
+      margin-top: 30px;
+
+      h3 {
+        font-size: 1.2em;
+        font-weight: 600;
+        color: #000000;
+        margin-bottom: 15px;
+      }
+
+      .form-group {
+        margin-bottom: 30px;
+
+        .form-control {
+          height: 46px;
+          border-color: #ededed;
+        }
+      }
+
+      .btn-info {
+        @extend %btn-default;
+        height: 46px;
+        width: 100%;
+
+        @include respond-to($_992) {
+          width: 250px;
+        }
+      }
+    }
+
+    .btn-link {
+      font-weight: 400;
+      color: #303030;
+      width: 100%;
+      padding-left: 0;
+      text-align: left;
+
+      @include respond-to($_992) {
+        font-size: 1.4em;
+        width: auto;
+      }
+    }
+}

@@ -1,0 +1,102 @@
+<div class="content-home">
+
+    <header>
+        <div id="carouselCodeShopBanner" class="carousel slide" data-ride="carousel">
+            <ol class="carousel-indicators">
+                <li data-target="#carouselCodeShopBanner" data-slide-to="0" class="active"></li>
+                <li data-target="#carouselCodeShopBanner" data-slide-to="1"></li>
+                <li data-target="#carouselCodeShopBanner" data-slide-to="2"></li>
+            </ol>
+            <div class="carousel-inner">
+
+                <a href="product.html" title="Produto" class="carousel-item active">
+                    <img src="img/BANNER.png" class="d-block w-100" alt="Banner">
+                </a>
+
+                <a href="product.html" title="Produto" class="carousel-item">
+                    <img src="img/BANNER.png" class="d-block w-100" alt="Banner">
+                </a>
+
+                <a href="product.html" title="Produto" class="carousel-item">
+                    <img src="img/BANNER.png" class="d-block w-100" alt="Banner">
+                </a>
+            </div>
+            <a class="carousel-control-prev" href="#carouselCodeShopBanner" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#carouselCodeShopBanner" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a>
+        </div>
+    </header>
+
+    <section class="section-default">
+        <div class="container">
+            <h2>Destaques</h2>
+
+            <div class="container-default row">
+
+                {{#forEach featuredProducts }}
+                <a href="/product/{{slug}}" title="Produto" class="col-sm-6 col-md-4 col-lg-3">
+                    <article class="item">
+                        <div class="item-img">
+                            <img src="{{ASSETS_URL}}{{image_url}}" alt="{{name}}" class="img-fluid">
+                        </div>
+                        <div class="title">
+                            <h2>{{name}}</h2>
+                        </div>
+                        <p class="price">R${{price}}</p>
+                        {{#with ../payMethodConfig}}
+                            {{#is max_installments 0}}
+                                <p>À vista no boleto</p>
+                            {{else}}
+                                <p>
+                                  {{max_installments}}x de R$ {{toFixed (divide ../this.price max_installments) 2}} sem juros
+                                </p>
+                            {{/is}}
+                        {{/with}}
+                    </article>
+                </a>
+                {{/forEach}}
+
+            </div>
+        </div>
+    </section>
+
+    <section class="section-default">
+        <div class="container">
+            <h2>Mais vendidos</h2>
+
+            <div class="container-default row">
+
+
+                {{#forEach topSellingProducts }}
+                    <a href="/product/{{slug}}" title="Produto" class="col-sm-6 col-md-4 col-lg-3">
+                        <article class="item">
+                            <div class="item-img">
+                                <img src="{{ASSETS_URL}}{{image_url}}" alt="{{name}}" class="img-fluid">
+                            </div>
+                            <div class="title">
+                                <h2>{{name}}</h2>
+                            </div>
+                            <p class="price">R${{price}}</p>
+                            {{#with ../payMethodConfig}}
+                                {{#is max_installments 0}}
+                                    <p>À vista no boleto</p>
+                                {{else}}
+                                    <p>
+                                        {{max_installments}}x de R$ {{toFixed (divide ../this.price max_installments) 2}} sem juros
+                                    </p>
+                                {{/is}}
+                            {{/with}}
+                        </article>
+                    </a>
+                {{/forEach}}
+
+            </div>
+        </div>
+    </section>
+
+</div>

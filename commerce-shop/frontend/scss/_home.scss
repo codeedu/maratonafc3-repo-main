@@ -1,0 +1,24 @@
+.content-home {
+
+  .section-offers {
+    @extend %section-default;
+    background-color: #fafafa;
+
+    .offer {
+      @extend %article-default;
+      border-top: 8px solid #d44d26;
+
+      .offer-img {
+        @extend %img-box-default;
+      }
+    }
+
+    .title {
+      @extend %title-box-default;
+    }
+
+    p {
+      @extend %text-box-default-price;
+    }
+  }
+}

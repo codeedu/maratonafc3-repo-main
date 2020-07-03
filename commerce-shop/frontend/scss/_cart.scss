@@ -1,0 +1,141 @@
+.content-cart {
+  min-height: calc(100% - 170px);
+  height: auto;
+  background-color: #ffffff;
+
+  .breadcrumb {
+    background-color: #ffffff;
+  }
+
+  .section-default {
+    background-color: #ffffff;
+
+
+  .table {
+    border: none;
+    margin-top: 30px;
+
+    thead {
+      tr {
+        th {
+          border: none;
+        }
+      }
+    }
+
+    tbody {
+      tr {
+        .product {
+          border-top: 1px solid #ededed;
+          @extend %flex-default;
+          justify-content: flex-start;
+
+          .img-fluid {
+            max-width: 100px;
+            margin-right: 30px;
+
+            @include respond-to($_768) {
+              max-width: 140px;
+            }
+          }
+
+          .info {
+            display: none;
+
+            @include respond-to($_992) {
+              display: inline;
+            }
+
+            p {
+              font-size: 1.2em;
+              font-weight: 600;
+              color: #808080;
+            }
+
+            span {
+              font-size: 0.8em;
+              font-weight: 400;
+              color: #808080;
+            }
+          }
+        }
+
+        .price {
+          font-size: 1em;
+          font-weight: 400;
+          color: #303030;
+          min-width: 130px;
+        }
+      }
+    }
+  }
+
+
+  .details {
+    background-color: #fafafa;
+    padding: 15px;
+    margin-top: 30px;
+
+    h3 {
+      font-size: 1.4em;
+      font-weight: 400;
+      color: #000000;
+    }
+
+    .list-info, .list-info-total {
+      @extend %flex-default;
+
+      margin: 15px 0;
+      p {
+        font-size: 1em;
+        font-weight: 400;
+        color: #707070;
+      }
+    }
+
+    .list-info-total {
+      border-top: 1px solid #ededed;
+      border-bottom: 1px solid #ededed;
+      padding: 20px 0;
+      align-items: flex-start;
+
+      p {
+        font-weight: 600;
+        color: #000000;
+        text-align: right;
+
+        span {
+          display: block;
+          font-size: 0.9em;
+          font-weight: 300;
+        }
+      }
+    }
+
+    .btn-info {
+      @extend %btn-default;
+      width: 100%;
+      margin: 15px 0;
+
+      @include respond-to($_992) {
+        font-size: 1.3em;
+      }
+    }
+
+    .btn-link {
+      font-weight: 400;
+      color: #000000;
+      width: 100%;
+
+      @include respond-to($_992) {
+        font-size: 1.3em;
+      }
+
+      &:hover {
+
+      }
+    }
+  }
+
+  }
+}

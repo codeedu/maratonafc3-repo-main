@@ -1,0 +1,108 @@
+<div class="content-product">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                {{#with product}}
+                    {{#with category}}
+                        <li class="breadcrumb-item"><a href="/category/{{slug}}">{{name}}</a></li>
+                    {{/with}}
+                {{/with}}
+                {{#with product}}
+                    <li class="breadcrumb-item active" aria-current="page">{{name}}</li>
+                {{/with}}
+            </ol>
+        </nav>
+    </div>
+
+
+    {{#with product}}
+        <section class="product">
+            <div class="container">
+
+                <article class="item row">
+                    <div class="col-lg-6 product-img">
+                        <img src="{{ASSETS_URL}}{{image_url}}" alt="Produto" class="img-fluid">
+                    </div>
+
+                    <div class="col-lg-6">
+
+                        <div class="product-info">
+                            <div class="title">
+                                <h2>{{name}}</h2>
+                                <span>Código do produto: {{uppercase (truncate id 7)}}</span>
+                            </div>
+
+                            <div class="info">
+                                <div class="info-price">
+                                    <p class="price">R${{price}}</p>
+                                    {{#with ../payMethodConfig}}
+                                        {{#is max_installments 0}}
+                                            <p class="price-div">À vista no boleto</p>
+                                        {{else}}
+                                            <p class="price-div">
+                                                {{max_installments}}x de R$ {{toFixed
+                                                    (divide ../this.price max_installments) 2}} sem juros
+                                            </p>
+                                        {{/is}}
+                                    {{/with}}
+                                    <!--                                    <p class="price-div">12x de R$ 79,08 sem Juros</p>-->
+                                </div>
+                                <a href="/cart/add/{{id}}" title="Adicionar ao Carrinho" class="btn btn-info">Adicionar ao
+                                    Carrinho</a>
+                            </div>
+                        </div>
+
+                    </div>
+                </article>
+
+                <article class="item-details row">
+                    <h2>Detalhes</h2>
+                    <div class="item-details-info">
+                        <p>
+                            {{description}}
+                        </p>
+                    </div>
+                </article>
+
+            </div>
+        </section>
+    {{/with}}
+
+    <section class="section-default">
+        <div class="container">
+
+            <h2>Produtos relacionados</h2>
+
+            <div class="container-default row">
+
+
+                {{#forEach categorizedProducts }}
+                    <a href="/product/{{slug}}" title="Produto" class="col-sm-6 col-md-4 col-lg-3">
+                        <article class="item">
+                            <div class="item-img">
+                                <img src="{{ASSETS_URL}}{{image_url}}" alt="{{name}}" class="img-fluid">
+                            </div>
+                            <div class="title">
+                                <h2>{{name}}</h2>
+                            </div>
+                            <p class="price">R${{price}}</p>
+                            {{#with ../payMethodConfig}}
+                                {{#is max_installments 0}}
+                                    <p>À vista no boleto</p>
+                                {{else}}
+                                    <p>
+                                        {{max_installments}}x de R$ {{toFixed (divide ../this.price max_installments)
+                                                                              2}} sem juros
+                                    </p>
+                                {{/is}}
+                            {{/with}}
+                        </article>
+                    </a>
+                {{/forEach}}
+
+            </div>
+        </div>
+    </section>
+
+</div>

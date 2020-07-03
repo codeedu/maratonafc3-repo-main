@@ -1,7 +1,7 @@
 import {createParamDecorator, ExecutionContext, SetMetadata} from "@nestjs/common";
 import {Request} from "express";
 
-enum OrderProductQueryParam {
+export enum OrderProductQueryParam {
     ALL = 'todos',
     BEST_SELLERS = 'mais_vendidos',
     LOWEST_PRICE = 'menor_preco',

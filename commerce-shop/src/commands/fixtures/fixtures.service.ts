@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import {ConsoleService} from "nestjs-console";
 import {ModuleRef} from "@nestjs/core";
 import {EsDataSourceService} from "../../elasticsearch/es-data-source/es-data-source.service";
+//@ts-ignore
 import {Client} from 'es7';
 import fixtures from './json';
 import {DefaultCrudRepository} from "@loopback/repository";

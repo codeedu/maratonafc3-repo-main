@@ -1,5 +1,6 @@
 import {DefaultCrudRepository} from '@loopback/repository';
 import {Entity} from "@loopback/repository";
+//@ts-ignore
 import {Client} from 'es6';
 
 export abstract class BaseRepository<

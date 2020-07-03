@@ -1,5 +1,9 @@
 #!/bin/bash
 
+if [ ! -f ".env" ]; then
+  cp .env.example .env
+fi
+
 pip install --cache-dir=/home/django/app/.docker/.pip -r requirements.txt
 python manage.py migrate
 python manage.py loaddata initial_data

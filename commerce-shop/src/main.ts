@@ -25,7 +25,7 @@ async function bootstrap() {
 
   const RedisStore = connectRedis(session);
   const redisClient = redis.createClient({
-    host: 'redis'
+    url: process.env.REDIS_URI
   })
   app.use(session({
     store: new RedisStore({ client: redisClient }),

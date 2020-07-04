@@ -152,7 +152,7 @@ USE_TZ = True
 STATIC_URL = '/admin/static/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-MEDIA_URL = '/media/'
+MEDIA_URL = '/admin/media/'
 
 MEDIA_BASE_PATH = 'uploads'
 

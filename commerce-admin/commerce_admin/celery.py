@@ -75,8 +75,9 @@ class NewSubscriptionConsumerStep(bootsteps.ConsumerStep):
                 tenant = Tenant.objects.create(
                     company=data['name'],
                     is_admin=False,
-                    #site=data['site'],
-                    site='meusite.test',
+                    # site=data['site'],
+                    # site='meusite.test',
+                    site=get_random_string(length=3).lower() + '.temp',
                     fallback_subdomain=get_random_string(length=6).lower()
                 )
                 set_tenant(tenant)

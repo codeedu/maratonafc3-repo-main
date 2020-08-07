@@ -35,7 +35,7 @@
     "@types/lodash": "^4.14.155",
     "axios": "^0.19.2",
     "bootstrap": "^4.5.0",
-    "class-transformer": "^0.2.3",
+    "class-transformer": "^0.3.1",
     "commander": "^5.1.0",
     "connect-redis": "^4.0.4",
     "express-handlebars": "^4.0.4",

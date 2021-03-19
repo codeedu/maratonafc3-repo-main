@@ -11,7 +11,7 @@ django-extensions==2.2.9
 django-polymorphic==2.1.2
 django-redis==4.12.1
 django-rest-polymorphic==0.1.9
-djangorestframework==3.11.0
+djangorestframework==3.11.2
 gunicorn==20.0.4
 idna==2.9
 importlib-metadata==1.6.0

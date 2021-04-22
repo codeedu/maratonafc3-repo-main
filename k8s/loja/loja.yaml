@@ -1,0 +1,100 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: shop-conf
+  labels:
+    name: shop-conf
+data:
+  env: |
+    DEBUG=elasticsearch,loopback:connector:elasticsearch,loopback:core:application
+    APP_ENV=dev
+    SESSION_SECRET_KEY=fullcycle.com.br
+    ELASTIC_SEARCH_HOST=http://elasticsearch-master:9200
+    ELASTIC_SEARCH_REQUEST_TIMEOUT=30000
+    ELASTIC_SEARCH_PING_TIMEOUT=3000
+
+    RABBITMQ_URI=amqp://user:2WQwGFMkNb@rabbitmq:5672
+
+    #Local colocar o endereço do Django
+    MIX_ASSETS_URL=http://admin.loja.maratona.fullcycle.com.br
+    MIX_MAIN_DOMAIN=loja.maratona.fullcycle.com.br
+    MIX_DEV_ADMIN_PORT=
+    REDIS_URI=redis://admin-redis-service:6379/1
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: shop
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: shop
+  template:
+    metadata:
+      labels:
+        app: shop
+        version: "1.0"
+    spec:
+      containers:
+        - name: shop
+          image: wesleywillians/maratonafc3-shop
+          ports:
+            - containerPort: 3000
+          envFrom:
+            - configMapRef:
+                name: shop-conf
+          volumeMounts:
+          - name: shop-conf
+            subPath: .env
+            mountPath: /home/node/app/.env
+
+      volumes:
+      - name: shop-conf
+        configMap:
+          name: shop-conf
+          items:
+            - key: env
+              path: .env
+                
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: shop-service
+  labels:
+    app: shop
+spec:
+  type: ClusterIP
+  ports:
+    - protocol: TCP
+      name: http-svc
+      port: 3000
+  selector:
+    app: shop
+
+---
+  
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: shop-vs
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - admin-gateway
+  http:
+  - name: "shop"
+    match:
+    - uri:
+        prefix: /
+      port: 80
+    route:
+    - destination:
+        port:
+          number: 3000
+        host: shop-service      

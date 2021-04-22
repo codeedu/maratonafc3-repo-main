@@ -1,0 +1,153 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: admin-conf
+  labels:
+    name: admin-conf
+data:
+  env: |
+    DEBUG=on
+    SECRET_KEY="2=3n$f!wd%a+^^9ulho24(lsy!5i%js%1)9e*sepa0!g9lur+n"
+    ALLOWED_HOSTS=loja.maratona.fullcycle.com.br
+    DATABASE_URL="postgres://postgres:postgres@postgress-postgresql:5432/ecommerce_admin"
+    RABBITMQ_URI=amqp://user:2WQwGFMkNb@rabbitmq:5672
+    REDIS_URI=redis://admin-redis-service:6379/1
+    MICRO_SERVICE_PAYMENT_URL=https://sfqtvxhs70.execute-api.us-east-2.amazonaws.com/dev/transaction
+    MICRO_SERVICE_PAYMENT_API_KEY=abcde
+    
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: admin
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: admin
+  template:
+    metadata:
+      labels:
+        app: admin
+    spec:
+      containers:
+        - name: admin
+          image: wesleywillians/maratonafc3-admin:latest
+          ports:
+            - containerPort: 8000
+          envFrom:
+            - configMapRef:
+                name: admin-conf
+          volumeMounts:
+          - name: admin-conf
+            subPath: .env
+            mountPath: /code/.env
+
+      volumes:
+      - name: admin-conf
+        configMap:
+          name: admin-conf
+          items:
+            - key: env
+              path: .env
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: admin-celery
+  labels:
+    app: admin
+spec:
+  selector:
+    matchLabels:
+      app: admin-celery
+  template:
+    metadata:
+      labels:
+        app: admin-celery
+    spec:
+      containers:
+        - name: admin
+          image: wesleywillians/maratonafc3-admin-celery:latest
+          envFrom:
+            - configMapRef:
+                name: admin-conf
+          volumeMounts:
+          - name: admin-conf
+            subPath: .env
+            mountPath: /code/.env
+
+      volumes:
+      - name: admin-conf
+        configMap:
+          name: admin-conf
+          items:
+            - key: env
+              path: .env                  
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: admin-service
+  labels:
+    app: admin
+spec:
+  type: ClusterIP
+  ports:
+    - protocol: TCP
+      name: http-svc
+      port: 8000
+  selector:
+    app: admin
+
+---
+
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: admin-gateway
+spec:
+  selector:
+    istio: ingressgateway # use Istio default gateway implementation
+  servers:
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    hosts:  
+    - "*"
+
+---  
+
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: admin-vs
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - admin-gateway
+  http:
+  - name: "admin"
+    match:
+    - uri:
+        prefix: /admin
+      port: 80
+    - uri:
+        prefix: /tenant
+      port: 80  
+    - uri:
+        prefix: /api
+      port: 80
+    route:
+    - destination:
+        port:
+          number: 8000
+        host: admin-service 
+
+   

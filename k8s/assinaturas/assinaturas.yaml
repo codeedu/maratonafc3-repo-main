@@ -1,0 +1,119 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: subscription-conf
+  labels:
+    name: subscription-conf
+data:
+  env: |
+    GO_ENV=development
+    SESSION_SECRET=jkl543jlgfd89ygggfd
+    DATABASE_URL=postgres://postgres:postgres@postgress-postgresql:5432/subscription?sslmode=disable
+    RABBITMQ_DEFAULT_USER=user
+    RABBITMQ_DEFAULT_PASS=2WQwGFMkNb
+    RABBITMQ_DEFAULT_HOST=rabbitmq
+    RABBITMQ_DEFAULT_PORT=5672
+    RABBITMQ_DEFAULT_VHOST=/
+    RABBITMQ_NOTIFICATION_EX=amq.fanout
+    RABBITMQ_NOTIFICATION_ROUTING_KEY=
+
+    PAYMENT_SUBSCRIPTION_ENDPOINT=https://sfqtvxhs70.execute-api.us-east-2.amazonaws.com/dev/subscription
+    PAYMENT_SECRET_KEY=abcde
+    GATEWAY=pagar.me
+    GATEWAY_APIKEY=ak_test_iKed5BXLK7fAreMfZP46RWLouxkkYT
+    GATEWAY_ENCRYPTION_KEY=ek_test_AoRj4Dr2cp8vdtFjXKulKrZiI0nSm9
+    
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: subscription
+spec:
+  selector:
+    matchLabels:
+      app: subscription
+  template:
+    metadata:
+      labels:
+        app: subscription
+    spec:
+      containers:
+        - name: subscription
+          image: wesleywillians/maratonafc3-subscription
+          ports:
+            - containerPort: 3000
+          envFrom:
+            - configMapRef:
+                name: subscription-conf
+          volumeMounts:
+          - name: subscription-conf
+            subPath: .env
+            mountPath: /bin/.env
+
+      volumes:
+      - name: subscription-conf
+        configMap:
+          name: subscription-conf
+          items:
+            - key: env
+              path: .env
+          
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: subscription-service
+  labels:
+    app: subscription
+spec:
+  type: ClusterIP
+  ports:
+    - protocol: TCP
+      name: http-svc
+      port: 3000
+  selector:
+    app: subscription
+    
+
+---
+
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: subscription-gateway
+spec:
+  selector:
+    istio: ingressgateway # use Istio default gateway implementation
+  servers:
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    hosts:  
+    - "loja.maratona.fullcycle.com.br"
+
+---
+  
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: subscription-vs
+spec:
+  hosts:
+  - "loja.maratona.fullcycle.com.br"
+  gateways:
+  - subscription-gateway
+  http:
+    - name: "subscription"
+      match:
+      - uri:
+          prefix: /
+        port: 80
+      route:
+      - destination:
+          port:
+            number: 3000
+          host: subscription-service    

@@ -19,6 +19,7 @@ class PublisherModelObserver:
         action = 'created' if created else 'updated'
         routing_key = self._get_routing_key(action)
         message = self.serializer(instance).data
+        print(message, routing_key)
         self._publish(message, routing_key)
 
     def model_deleted(self, instance, **kwargs):
